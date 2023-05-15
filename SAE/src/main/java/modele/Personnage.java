@@ -111,8 +111,15 @@ public class Personnage {
         }
         return listeQuetesRealisables;
     }
-
-
+    
+    
+    public boolean queteFinaleRealisable(Scenario scenario){
+        ArrayList<Quete> listeQuetes = scenario.getListeQuetes();
+        listeQuetes.sort(Quete::compareTo);
+        if (queteRealisable(scenario).contains(0) && experience >= listeQuetes.get(0).getExperience())
+            return true;
+        return false;
+    }
 
     // Ci-dessous se trouvent les méthodes "get"
 
