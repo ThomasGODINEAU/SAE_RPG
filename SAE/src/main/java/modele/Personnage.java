@@ -120,6 +120,36 @@ public class Personnage {
             return true;
         return false;
     }
+    
+    
+    /**
+     * Méthode queteLaPlusProche
+     * Retourne la liste des quêtes les plus proches de la position actuelle du personnage
+     *
+     * @param listeQuete (ArrayList<Quete>) : Liste des quêtes à évaluer
+     * @return Liste des quêtes les plus proches de la position actuelle du personnage
+     */
+    public ArrayList<Quete> queteLaPlusProche(ArrayList<Quete> listeQuete){
+        int distanceMin = 100; // Distance minimale initiale (valeur arbitraire)
+        ArrayList <Quete> queteLesPlusProches = new ArrayList<>(); // Liste des quêtes les plus proches
+        for (Quete quete : listeQuete) {
+            // Calcul de la distance entre la quête étudiée et la position actuelle du personnage
+            int distanceQueteEtudiee = Math.abs(quete.getPosition()[0] - position[0]) + Math.abs(quete.getPosition()[1] - position[1]);
+            if (distanceQueteEtudiee < distanceMin){
+                // Si la distance de la quête étudiée est inférieure à la distance minimale actuelle,
+                // elle devient la nouvelle distance minimale et la liste des quêtes les plus proches est mise à jour
+                distanceMin = distanceQueteEtudiee;
+                queteLesPlusProches.clear(); // On vide la liste précédente
+                queteLesPlusProches.add(quete); // On ajoute la quête étudiée à la liste
+            }
+            else if (distanceQueteEtudiee == distanceMin) {
+                // Si la distance de la quête étudiée est égale à la distance minimale actuelle,
+                // on l'ajoute à la liste des quêtes les plus proches
+                queteLesPlusProches.add(quete);
+            }
+        }
+        return queteLesPlusProches; // Retourne la liste des quêtes les plus proches
+    }
 
     // Ci-dessous se trouvent les méthodes "get"
 
