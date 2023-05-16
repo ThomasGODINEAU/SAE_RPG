@@ -78,17 +78,17 @@ public class Personnage {
      *
      * @param scenario (Scenario) Le scénario contenant les quêtes disponibles
      *
-     * @return La liste des quêtes réalisables par le personnage
+     * @return (ArrayList) La liste des quêtes réalisables par le personnage
      */
-    public ArrayList<Integer> queteRealisable(Scenario scenario) {
-        ArrayList<Integer> listeQuetesRealisables = new ArrayList<>();
+    public ArrayList<Quete> queteRealisable(Scenario scenario) {
+        ArrayList<Quete> listeQuetesRealisables = new ArrayList<>();
         // Parcours de toutes les quêtes du scénario
         for (int i=0; i < scenario.getListeQuetes().size(); i++){
             Quete queteEtudiee = scenario.getListeQuetes().get(i);
             // Vérification que la quête n'a pas déjà été terminée par le personnage
             if (! quetesTerminees.contains(queteEtudiee.getNumero())){
                 // Vérification des préconditions de la quête pour déterminer si elle est réalisable ou non
-                if (queteEtudiee.sansPrecondition()) listeQuetesRealisables.add(queteEtudiee.getNumero());
+                if (queteEtudiee.sansPrecondition()) listeQuetesRealisables.add(queteEtudiee);
                 else{
                     Boolean precondition1 = false;
                     Boolean precondition2 = false;
@@ -105,14 +105,22 @@ public class Personnage {
                         if(quetesTerminees.contains(queteEtudiee.getPrecondition()[j])) precondition2 = true;
                     }
                     // Ajout de la quête à la liste des quêtes réalisables si toutes les préconditions sont satisfaites
-                    if (precondition1 && precondition2) listeQuetesRealisables.add(queteEtudiee.getNumero());
+                    if (precondition1 && precondition2) listeQuetesRealisables.add(queteEtudiee);
                 }
             }
         }
         return listeQuetesRealisables;
     }
     
-    
+        /**
+     * Méthode queteFinaleRealisable
+     * Recupère la liste des quêtes du scenario donné et renvoie
+     * un booleen indiquant si la quête finale est réalisable
+     *
+     * @param scenario
+     *
+     * @return (boolean)
+     */
     public boolean queteFinaleRealisable(Scenario scenario){
         ArrayList<Quete> listeQuetes = scenario.getListeQuetes();
         listeQuetes.sort(Quete::compareTo);
