@@ -1,8 +1,5 @@
 package modele;
 
-import modele.Quete;
-import modele.Scenario;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -19,11 +16,9 @@ public class Personnage {
     private int tempsEcoule;    // Temps écoulé depuis le début de la simulation
 
     /**
-     * Constructeur du constructeur de la classe personnage
-     *
-     * @param scenario (Scenario)
+     * Constructeur de la classe personnage
      */
-    public Personnage(Scenario scenario) {
+    public Personnage() {
         // Initialisation de la liste des quêtes terminées vide
         quetesTerminees = new ArrayList<Integer>();
         // Initialisation de l'expérience à zéro
@@ -34,9 +29,11 @@ public class Personnage {
         tempsEcoule = 0;
     }
 
-
     public String toString(){
-        return "Quetes terminees : "+ quetesTerminees.toString() + "\n" + "experience : " + experience + "\n" + "position : " + Arrays.toString(position) + "\n" + "temps ecoule : " + tempsEcoule;
+        return "Quetes terminees : "+ quetesTerminees.toString() + "\n" +
+                "experience : " + experience + "\n" +
+                "position : " + Arrays.toString(position) + "\n" +
+                "temps ecoule : " + tempsEcoule;
     }
 
     /**
@@ -45,7 +42,7 @@ public class Personnage {
      * Ne se déplace pas case par case
      * Ajoute le nombre de case de distance entre notre case et la case de destination au temps écoulé
      *
-     * @param destination (destination)
+     * @param destination (int[])
      */
     public void deplacement(int[] destination){
         // Calcul du temps nécessaire pour se déplacer de la position actuelle à la destination
@@ -59,7 +56,7 @@ public class Personnage {
      * Méthode realisationQuete
      * Effectue la réalisation d'une quête par le personnage, en mettant à jour ses quêtes terminées, son expérience et le temps écoulé
      *
-     * @param quete : La quête à réaliser
+     * @param quete (Quete) : La quête à réaliser
      */
     public void realisationQuete(Quete quete){
         // Déplacement sur la case de la quête réalisée par le personnage
@@ -70,6 +67,41 @@ public class Personnage {
         experience += quete.getExperience();
         // Ajout de la durée de la quête au temps écoulé
         tempsEcoule += quete.getDuree();
+    }
+
+    /**
+     * Méthode annulationQuete
+     * Annule la dernière quete effectuée par le personnage en recalculant les champs à leur état d'avant la quete
+     *
+     * @param listeQuete    la liste des quêtes
+     */
+    public void annulationQuete(ArrayList<Quete> listeQuete) {
+        //mise en place d'un timer qui permettra de calculer le temps que met le déplacement entre la quete qu'on annule et la quete qui a été faite juste avant
+        int timer = getTempsEcoule();
+        //vérification qu'on n'est pas en train d'annuler la toute première quete pour ne pas avoir de bug avec quetesTerminees.size()-2
+        if (quetesTerminees.size() >= 2) {
+            //les coordonées de la quete qui avait été faite juste avant la quete qu'on est en train d'annuler
+            int[] coordonnees = listeQuete.get(quetesTerminees.get(quetesTerminees.size()-2)).getPosition();
+            deplacement(coordonnees);
+            //on enlève le temps de déplacement à la quete
+            tempsEcoule -= (tempsEcoule - timer) * 2;
+        }
+        //le cas ou on annule la toute première quete qui avait été réalisée
+        else {
+            //on reviens à la position initiale et on remet le temps à zéro puiqu'on repart du début
+            deplacement(new int[] {0, 0});
+            tempsEcoule = 0;
+        }
+        //variable contenant la quete qu'on est en train d'annuler
+        Quete queteAnnulee = listeQuete.get(quetesTerminees.get(quetesTerminees.size()-1));
+        //si le temps écoulé est différent de zéro (c'est à dire si la quête qu'on vient d'annuler n'est pas la toute première quête),
+        if (tempsEcoule != 0)
+            //on enlève le temps de rélisation de la quête qu'on annule
+            tempsEcoule -= queteAnnulee.getDuree();
+        //on enlève la quête qu'on annule des quêtes que le personnage a réalisé
+        quetesTerminees.remove(quetesTerminees.size()-1);
+        //et on enlève l'expèrience ce la quête qu'on annule
+        experience -= queteAnnulee.getExperience();
     }
 
     /**
@@ -98,12 +130,10 @@ public class Personnage {
                     if(queteEtudiee.getPrecondition()[2] == queteEtudiee.getPrecondition()[3]) precondition2 = true;
 
                     // Teste pour chaque précondition si elle a déjà été efféctuée par le personnage
-                    for (int j=0; j<2; j++){
-                        if(quetesTerminees.contains(queteEtudiee.getPrecondition()[j])) precondition1 = true;
-                    }
-                    for (int j=2; j<4; j++){
-                        if(quetesTerminees.contains(queteEtudiee.getPrecondition()[j])) precondition2 = true;
-                    }
+                    if(quetesTerminees.contains(queteEtudiee.getPrecondition()[0]) || quetesTerminees.contains(queteEtudiee.getPrecondition()[1]))
+                        precondition1 = true;
+                    if(quetesTerminees.contains(queteEtudiee.getPrecondition()[2]) || quetesTerminees.contains(queteEtudiee.getPrecondition()[3]))
+                        precondition2 = true;
                     // Ajout de la quête à la liste des quêtes réalisables si toutes les préconditions sont satisfaites
                     if (precondition1 && precondition2) listeQuetesRealisables.add(queteEtudiee);
                 }
@@ -111,8 +141,8 @@ public class Personnage {
         }
         return listeQuetesRealisables;
     }
-    
-        /**
+
+    /**
      * Méthode queteFinaleRealisable
      * Recupère la liste des quêtes du scenario donné et renvoie
      * un booleen indiquant si la quête finale est réalisable
@@ -124,12 +154,12 @@ public class Personnage {
     public boolean queteFinaleRealisable(Scenario scenario){
         ArrayList<Quete> listeQuetes = scenario.getListeQuetes();
         listeQuetes.sort(Quete::compareTo);
-        if (queteRealisable(scenario).contains(0) && experience >= listeQuetes.get(0).getExperience())
+        //Regarde si la quête finale est réalisable et si le personnage a l'expérience nécessaire
+        if (queteRealisable(scenario).contains(listeQuetes.get(0)) && experience >= listeQuetes.get(0).getExperience())
             return true;
         return false;
     }
-    
-    
+
     /**
      * Méthode queteLaPlusProche
      * Retourne la liste des quêtes les plus proches de la position actuelle du personnage
@@ -138,7 +168,7 @@ public class Personnage {
      * @return Liste des quêtes les plus proches de la position actuelle du personnage
      */
     public ArrayList<Quete> queteLaPlusProche(ArrayList<Quete> listeQuete){
-        int distanceMin = 100; // Distance minimale initiale (valeur arbitraire)
+        int distanceMin = 100000; // Distance minimale initiale (valeur arbitraire)
         ArrayList <Quete> queteLesPlusProches = new ArrayList<>(); // Liste des quêtes les plus proches
         for (Quete quete : listeQuete) {
             // Calcul de la distance entre la quête étudiée et la position actuelle du personnage
