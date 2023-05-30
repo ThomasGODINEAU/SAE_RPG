@@ -63,8 +63,9 @@ public class Personnage {
         deplacement(quete.getPosition());
         // Ajout du numéro de la quête à la liste des quêtes terminées par le personnage
         quetesTerminees.add(quete.getNumero());
-        // Ajout de l'expérience obtenue avec cette quête à l'expérience du personnage
-        experience += quete.getExperience();
+        if(quete.getNumero()!=0)
+            // Ajout de l'expérience obtenue avec cette quête à l'expérience du personnage
+            experience += quete.getExperience();
         // Ajout de la durée de la quête au temps écoulé
         tempsEcoule += quete.getDuree();
     }
@@ -100,8 +101,9 @@ public class Personnage {
             tempsEcoule -= queteAnnulee.getDuree();
         //on enlève la quête qu'on annule des quêtes que le personnage a réalisé
         quetesTerminees.remove(quetesTerminees.size()-1);
-        //et on enlève l'expèrience ce la quête qu'on annule
-        experience -= queteAnnulee.getExperience();
+        if(queteAnnulee.getNumero() != 0)
+            //et on enlève l'expèrience ce la quête qu'on annule
+            experience -= queteAnnulee.getExperience();
     }
 
     /**
