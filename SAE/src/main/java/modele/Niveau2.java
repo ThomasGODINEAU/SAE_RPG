@@ -345,3 +345,32 @@ public class Niveau2 {
         }
     }
 }
+
+    public ArrayList<Integer> getDureeTotale() {
+        return dureeTotale;
+    }
+
+    public ArrayList<Integer> getNombreDeQuetesTotal() {
+        return nombreDeQuetesTotal;
+    }
+
+    public ArrayList<Integer> getNombreDeCasesTotalParcourues() {
+        return nombreDeCasesTotalParcourues;
+    }
+
+    public ArrayList<ArrayList<Integer>> getCheminDeQueteEffectueParLePersonnage() {
+        return cheminDeQueteEffectueParLePersonnage;
+    }
+
+    public ArrayList<Solution> getListeSolutions() {
+        ArrayList<Solution> listeSolutions = new ArrayList<>();
+        for (int i = 0; i < getDureeTotale().size(); i++) {
+            Solution solution = new Solution(getCheminDeQueteEffectueParLePersonnage().get(i),
+                    getDureeTotale().get(i),
+                    getNombreDeQuetesTotal().get(i),
+                    getNombreDeCasesTotalParcourues().get(i));
+            listeSolutions.add(solution);
+        }
+        return listeSolutions;
+    }
+}
