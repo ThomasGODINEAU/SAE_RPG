@@ -344,7 +344,6 @@ public class Niveau2 {
 
         }
     }
-}
 
     public ArrayList<Integer> getDureeTotale() {
         return dureeTotale;
