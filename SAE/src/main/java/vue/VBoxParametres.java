@@ -1,6 +1,6 @@
 package vue;
 
-import Controleur.Controleur;
+import controleur.Controleur;
 import LectureScenario.LectureFichierTexte;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
