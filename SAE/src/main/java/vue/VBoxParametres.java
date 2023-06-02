@@ -18,7 +18,12 @@ import java.io.File;
 public class VBoxParametres extends VBox {
 
     Controleur controleur = new Controleur();
-
+    
+    /**
+     * Constructeur de la boîte de paramètres.
+     * Il crée et configure les éléments de l'interface utilisateur permettant de définir les paramètres de simulation.
+     * Il gère également les actions des boutons et les interactions avec les autres éléments.
+     */
     public VBoxParametres() {
         super(20);
         setPadding(new Insets(20));
