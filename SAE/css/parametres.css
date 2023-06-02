@@ -1,0 +1,30 @@
+.root {
+    -fx-background-color: #FDF5E6;
+}
+
+.table-cell {
+    -fx-alignment: center;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.table-view {
+    -fx-background-color: #ffffff; /* Couleur de fond */
+}
+
+.table-row-cell {
+    -fx-background-color: #ffffff; /* Couleur de fond des lignes */
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #c5e1e9; /* Couleur de fond des lignes sélectionnées */
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #dceaef; /* Couleur de fond des lignes sélectionnées */
+}
+
+.table-cell {
+    -fx-text-fill: #333333; /* Couleur du texte */
+    -fx-alignment: center; /* Alignement du texte au centre */
+}
