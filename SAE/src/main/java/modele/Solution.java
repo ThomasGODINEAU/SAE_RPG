@@ -14,4 +14,20 @@ public class Solution {
         this.nombreDeQuete = nombreDeQuete;
         this.nombreDeCasesParcourues = nombreDeCasesParcourues;
     }
+
+    public ArrayList<Integer> getChemin() {
+        return chemin;
+    }
+
+    public int getDuree() {
+        return duree;
+    }
+
+    public int getNombreDeQuete() {
+        return nombreDeQuete;
+    }
+
+    public int getNombreDeCasesParcourues() {
+        return nombreDeCasesParcourues;
+    }
 }
