@@ -9,7 +9,7 @@ public class Scenario {
      * Constructeur de la classe Scenraio
      * Initialise la liste de Quetes vide
      */
-    public Scenario(){
+    public Scenario() {
         listeQuetes = new ArrayList<Quete>();
     }
 
@@ -25,6 +25,7 @@ public class Scenario {
      */
     public void ajout(Quete parQuete){
         listeQuetes.add(parQuete);
+        listeQuetes.sort(Quete::compareTo);
     }
 
     public ArrayList<Quete> getListeQuetes() {

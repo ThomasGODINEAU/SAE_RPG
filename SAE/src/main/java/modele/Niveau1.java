@@ -67,5 +67,4 @@ public class Niveau1 {
         // Réalisation de la quête finale de la liste
         perso.realisationQuete(listeQuete.get(0));
     }
-
 }

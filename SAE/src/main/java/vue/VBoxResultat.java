@@ -17,7 +17,7 @@ public class VBoxResultat extends VBox {
 
         TableColumn<Solution, ArrayList<Integer>> colonneCheminParcouru = new TableColumn<>("Chemin Parcouru");
         colonneCheminParcouru.setCellValueFactory(new PropertyValueFactory<>("chemin"));
-        colonneCheminParcouru.setPrefWidth(230);
+        colonneCheminParcouru.setPrefWidth(250);
         colonneCheminParcouru.setResizable(false);
 
         TableColumn<Solution, Integer> colonneDuree = new TableColumn<>("Duree");

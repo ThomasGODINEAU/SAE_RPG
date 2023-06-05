@@ -155,7 +155,6 @@ public class Personnage {
      */
     public boolean queteFinaleRealisable(Scenario scenario){
         ArrayList<Quete> listeQuetes = scenario.getListeQuetes();
-        listeQuetes.sort(Quete::compareTo);
         //Regarde si la quête finale est réalisable et si le personnage a l'expérience nécessaire
         if (queteRealisable(scenario).contains(listeQuetes.get(0)) && experience >= listeQuetes.get(0).getExperience())
             return true;
