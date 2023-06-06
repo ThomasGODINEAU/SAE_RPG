@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Niveau2 {
     ArrayList<Integer> dureeTotale; // liste contenant les durées totales des chemins
     ArrayList<Integer> nombreDeQuetesTotal; // liste contenant le nombre total de quete réalisé
+    ArrayList<Integer> experienceTotaleChemin; // liste contenant l'expérience total acquise au cours du chemin
     ArrayList<Integer> nombreDeCasesTotalParcourues; // liste contenant le nombre total de cases parcouru
     ArrayList<ArrayList<Integer>> cheminDeQueteEffectueParLePersonnage;
 
@@ -16,6 +17,7 @@ public class Niveau2 {
     public Niveau2() {
         dureeTotale = new ArrayList<>();
         nombreDeQuetesTotal = new ArrayList<>();
+        experienceTotaleChemin = new ArrayList<>();
         nombreDeCasesTotalParcourues = new ArrayList<>();
         cheminDeQueteEffectueParLePersonnage = new ArrayList<>();
     }
@@ -23,6 +25,7 @@ public class Niveau2 {
     public String toString() {
         return ("Durees totales : " + dureeTotale + "\n" +
         "Nombre de quetes total : " + nombreDeQuetesTotal + "\n" +
+        "Experience acquise lors du chemin" + experienceTotaleChemin + "\n" +
         "Nombre de cases parcourues : " + nombreDeCasesTotalParcourues + "\n" +
         "Chemins possibles : " + cheminDeQueteEffectueParLePersonnage + "\n");
     }
@@ -66,6 +69,7 @@ public class Niveau2 {
                     nombreDeCases -= listeQuete.get(perso.getQuetesTerminees().get(i)).getDuree();
                 }
                 nombreDeCasesTotalParcourues.add(nombreDeCases);
+                experienceTotaleChemin.add(perso.getExperience());
 
                 // Enregistre le chemin de quête effectué par le personnage
                 cheminDeQueteEffectueParLePersonnage.add(new ArrayList<>(perso.getQuetesTerminees()));
@@ -76,6 +80,8 @@ public class Niveau2 {
                     dureeTotale.remove(indexPireOuMeilleureCheminActuelle);
                     nombreDeQuetesTotal.remove(indexPireOuMeilleureCheminActuelle);
                     nombreDeCasesTotalParcourues.remove(indexPireOuMeilleureCheminActuelle);
+                    experienceTotaleChemin.remove(indexPireOuMeilleureCheminActuelle);
+
                 }
             }
             // Annule la quête finale réalisée pour explorer d'autres chemins
@@ -148,6 +154,15 @@ public class Niveau2 {
                 }
             }
 
+            // Si la solution demandée est par experience
+            else if (nomSolution == "Experience") {
+                for (int i = 0; i < experienceTotaleChemin.size(); i++) {
+                    if (experienceTotaleChemin.get(i) > experienceTotaleChemin.get(indexPireOuMeilleureCheminActuelle)) {
+                        indexPireOuMeilleureCheminActuelle = i;
+                    }
+                }
+            }
+
             // Si la solution demandée est par nombre de cases parcourues
             else {
                 for (int i = 0; i < nombreDeCasesTotalParcourues.size(); i++) {
@@ -168,6 +183,7 @@ public class Niveau2 {
                     }
                 }
             }
+
             // Si la solution demandée est par nombre de quete
             else if (nomSolution == "NombreDeQuete") {
                 for (int i = 0; i < nombreDeQuetesTotal.size(); i++) {
@@ -176,6 +192,16 @@ public class Niveau2 {
                     }
                 }
             }
+
+            // Si la solution demandée est par experience
+            else if (nomSolution == "Experience") {
+                for (int i = 0; i < experienceTotaleChemin.size(); i++) {
+                    if (experienceTotaleChemin.get(i) < experienceTotaleChemin.get(indexPireOuMeilleureCheminActuelle)) {
+                        indexPireOuMeilleureCheminActuelle = i;
+                    }
+                }
+            }
+
             else {
                 // Si la solution demandée est par nombre de cases parcourues
                 for (int i = 0; i < nombreDeCasesTotalParcourues.size(); i++) {
@@ -227,6 +253,13 @@ public class Niveau2 {
                         nombreDeQuetesTotal.size() < nombreSolutionsVoulues);
             }
 
+            // Regarde si le type de solution demandé est par nombre de quêtes
+            else if (nomSolution == "Experience") {
+                return (experienceTotaleChemin.size() == 0 ||
+                        personnage.getQuetesTerminees().size() <= experienceTotaleChemin.get(indexPireOuMeilleureCheminActuelle) ||
+                        experienceTotaleChemin.size() < nombreSolutionsVoulues);
+            }
+
             // Regarde si le type de solution demandé est par nombre de cases parcourues
             else {
                 int nombreDeCases = personnage.getTempsEcoule();
@@ -254,6 +287,13 @@ public class Niveau2 {
                 return (nombreDeQuetesTotal.size() == 0 ||
                         personnage.getQuetesTerminees().size() >= nombreDeQuetesTotal.get(indexPireOuMeilleureCheminActuelle) ||
                         nombreDeQuetesTotal.size() < nombreSolutionsVoulues);
+            }
+
+            // Regarde si le type de solution demandé est par nombre de quêtes
+            else if (nomSolution == "Experience") {
+                return (experienceTotaleChemin.size() == 0 ||
+                        personnage.getQuetesTerminees().size() >= experienceTotaleChemin.get(indexPireOuMeilleureCheminActuelle) ||
+                        experienceTotaleChemin.size() < nombreSolutionsVoulues);
             }
 
             // Regarde si le type de solution demandé est par nombre de cases parcourues
@@ -308,6 +348,7 @@ public class Niveau2 {
                     nombreDeCases -= listeQuete.get(perso.getQuetesTerminees().get(i)).getDuree();
                 }
                 nombreDeCasesTotalParcourues.add(nombreDeCases);
+                experienceTotaleChemin.add(perso.getExperience());
                 // Enregistre le chemin de quête effectué par le personnage
                 cheminDeQueteEffectueParLePersonnage.add(new ArrayList<>(perso.getQuetesTerminees()));
 
@@ -317,6 +358,7 @@ public class Niveau2 {
                     dureeTotale.remove(indexPireOuMeilleureCheminActuelle);
                     nombreDeQuetesTotal.remove(indexPireOuMeilleureCheminActuelle);
                     nombreDeCasesTotalParcourues.remove(indexPireOuMeilleureCheminActuelle);
+                    experienceTotaleChemin.remove(indexPireOuMeilleureCheminActuelle);
                 }
             }
             // Annule la quête finale réalisée pour explorer d'autres chemins
@@ -361,13 +403,18 @@ public class Niveau2 {
         return cheminDeQueteEffectueParLePersonnage;
     }
 
+    public ArrayList<Integer> getExperienceTotaleChemin() {
+        return experienceTotaleChemin;
+    }
+
     public ArrayList<Solution> getListeSolutions() {
         ArrayList<Solution> listeSolutions = new ArrayList<>();
         for (int i = 0; i < getDureeTotale().size(); i++) {
             Solution solution = new Solution(getCheminDeQueteEffectueParLePersonnage().get(i),
                     getDureeTotale().get(i),
                     getNombreDeQuetesTotal().get(i),
-                    getNombreDeCasesTotalParcourues().get(i));
+                    getNombreDeCasesTotalParcourues().get(i),
+                    getExperienceTotaleChemin().get(i));
             listeSolutions.add(solution);
         }
         return listeSolutions;
