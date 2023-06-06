@@ -5,8 +5,8 @@ import javafx.scene.layout.HBox;
 
 public class HBoxRoot extends HBox {
 
-    VBoxParametres vBoxParametres = new VBoxParametres();
-    VBoxResultat vBoxResultat = new VBoxResultat();
+    static VBoxParametres vBoxParametres = new VBoxParametres();
+    static VBoxResultat vBoxResultat = new VBoxResultat();
 
     /**
      * Constructeur de la racine de l'interface utilisateur.
@@ -22,5 +22,9 @@ public class HBoxRoot extends HBox {
 
         // Ajout des VBoxParametres et VBoxResultat à la HBox principale
         getChildren().addAll(vBoxParametres, vBoxResultat);
+    }
+
+    public static VBoxParametres getvBoxParametres() {
+        return vBoxParametres;
     }
 }
