@@ -108,12 +108,17 @@ public class VBoxParametres extends VBox {
         boutonNombreDeQuete.setToggleGroup(groupeChoixValeurParcours);
         boutonNombreDeQuete.setUserData("NombreDeQuete");
 
+        RadioButton boutonExperience = new RadioButton("_Expérience");
+        boutonExperience.setMnemonicParsing(true);
+        boutonExperience.setToggleGroup(groupeChoixValeurParcours);
+        boutonExperience.setUserData("Experience");
+
         RadioButton boutonNombreDeCasesParcourues = new RadioButton("Nombre de _cases parcourues");
         boutonNombreDeCasesParcourues.setMnemonicParsing(true);
         boutonNombreDeCasesParcourues.setToggleGroup(groupeChoixValeurParcours);
         boutonNombreDeCasesParcourues.setUserData("NombreDeCasesParcourues");
 
-        choixValeurParcours.getChildren().addAll(labelChoixValeurParcours, boutonDuree, boutonNombreDeQuete, boutonNombreDeCasesParcourues);
+        choixValeurParcours.getChildren().addAll(labelChoixValeurParcours, boutonDuree, boutonNombreDeQuete, boutonExperience, boutonNombreDeCasesParcourues);
         choixValeurParcours.setSpacing(10);
 
 
