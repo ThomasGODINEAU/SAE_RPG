@@ -16,8 +16,13 @@ import modele.Scenario;
 import java.io.File;
 
 public class VBoxParametres extends VBox {
+    static Spinner<Integer> spinnerChoixScenario;
+    static ToggleGroup groupeBoutonsTypeChemin;
+    static ToggleGroup groupeBoutonsMeilleurOuPire;
+    static ToggleGroup groupeChoixValeurParcours;
+    static Spinner<Integer> spinnerChoixNombreCheminsVoulus;
+    static Button boutonValider;
 
-    Controleur controleur = new Controleur();
 
     /**
      * Constructeur de la boîte de paramètres.
@@ -27,13 +32,15 @@ public class VBoxParametres extends VBox {
     public VBoxParametres() {
         super(20);
         setPadding(new Insets(20));
+        Controleur controleur = new Controleur();
+
 
         // Choix Du Scénario
         HBox choixScenario = new HBox();
 
         Label labelChoixScenario = new Label("Numéro du scénario : ");
 
-        Spinner<Integer> spinnerChoixScenario = new Spinner<>();
+        spinnerChoixScenario = new Spinner<>();
         int minS = 0;
         int maxS = 10;
         int valeurInitialeS = 0;
@@ -52,7 +59,7 @@ public class VBoxParametres extends VBox {
 
         Label labelChoixTypeChemin = new Label("Quel type de chemin souhaitez vous ? ");
 
-        ToggleGroup groupeBoutonsTypeChemin = new ToggleGroup();
+        groupeBoutonsTypeChemin = new ToggleGroup();
 
         RadioButton boutonCheminEfficace = new RadioButton("E_fficace");
         boutonCheminEfficace.setMnemonicParsing(true);
@@ -74,7 +81,7 @@ public class VBoxParametres extends VBox {
 
         Label labelChoixMeilleurOuPire = new Label("Les meilleures ou les pires chemins ? ");
 
-        ToggleGroup groupeBoutonsMeilleurOuPire = new ToggleGroup();
+        groupeBoutonsMeilleurOuPire = new ToggleGroup();
 
         RadioButton boutonMeilleur = new RadioButton("_Meilleures");
         boutonMeilleur.setMnemonicParsing(true);
@@ -95,7 +102,7 @@ public class VBoxParametres extends VBox {
 
         Label labelChoixValeurParcours = new Label("Par quelle valeur souhaitez-vous vos chemins ? ");
 
-        ToggleGroup groupeChoixValeurParcours = new ToggleGroup();
+        groupeChoixValeurParcours = new ToggleGroup();
 
         RadioButton boutonDuree = new RadioButton("_Duree");
         boutonDuree.setMnemonicParsing(true);
@@ -127,7 +134,7 @@ public class VBoxParametres extends VBox {
 
         Label labelChoixNombreCheminsVoulus = new Label("Combien de solutions souhaitez-vous ? ");
 
-        Spinner<Integer> spinnerChoixNombreCheminsVoulus = new Spinner<>();
+        spinnerChoixNombreCheminsVoulus = new Spinner<>();
         int minN = 1;
         int maxN = 100;
         int valeurInitialeN = 10;
@@ -141,35 +148,10 @@ public class VBoxParametres extends VBox {
 
         Separator deuxiemeSeparatoeur = new Separator();
 
-        // METTRE ICI LES BOUTONS DE LANCEMENT
 
-        Button boutonValider = new Button("Valider");
-
-        boutonValider.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                Niveau2 niveau2 = new Niveau2();
-                Scenario scenario;
-                scenario = LectureFichierTexte.lecture(new File("scenario" + File.separator + "scenario_" +
-                        spinnerChoixScenario.getValue() + ".txt"));
-
-                if (groupeBoutonsTypeChemin.getSelectedToggle().getUserData() == "Efficace") {
-                    niveau2.getCheminEfficace(new Personnage(), scenario, scenario.getListeQuetes(),
-                            spinnerChoixNombreCheminsVoulus.getValue(),
-                            groupeChoixValeurParcours.getSelectedToggle().getUserData().toString(),
-                            groupeBoutonsMeilleurOuPire.getSelectedToggle().getUserData().toString());
-                }
-                else {
-                    niveau2.getCheminExhaustif(new Personnage(), scenario, scenario.getListeQuetes(),
-                            spinnerChoixNombreCheminsVoulus.getValue(),
-                            groupeChoixValeurParcours.getSelectedToggle().getUserData().toString(),
-                            groupeBoutonsMeilleurOuPire.getSelectedToggle().getUserData().toString());
-                }
-                VBoxResultat.update(niveau2.getListeSolutions());
-            }
-        });
-
+        boutonValider = new Button("Valider");
         boutonValider.addEventHandler(ActionEvent.ACTION, controleur);
+
         boutonValider.setPrefSize(80, 40);
         setAlignment(Pos.CENTER_RIGHT);
 
@@ -188,5 +170,25 @@ public class VBoxParametres extends VBox {
 
         getChildren().addAll(choixScenario, premierSeparateur, choixTypeChemin, choixMeilleurOuPire,
                 choixValeurParcours, choixNombreCheminsVoulus, deuxiemeSeparatoeur, boutonValider);
+    }
+
+    public static Spinner<Integer> getSpinnerChoixScenario() {
+        return spinnerChoixScenario;
+    }
+
+    public static ToggleGroup getGroupeBoutonsTypeChemin() {
+        return groupeBoutonsTypeChemin;
+    }
+
+    public static ToggleGroup getGroupeBoutonsMeilleurOuPire() {
+        return groupeBoutonsMeilleurOuPire;
+    }
+
+    public static ToggleGroup getGroupeChoixValeurParcours() {
+        return groupeChoixValeurParcours;
+    }
+
+    public static Spinner<Integer> getSpinnerChoixNombreCheminsVoulus() {
+        return spinnerChoixNombreCheminsVoulus;
     }
 }
