@@ -7,12 +7,14 @@ public class Solution {
     int duree;
     int nombreDeQuete;
     int nombreDeCasesParcourues;
+    int experience;
 
-    public Solution(ArrayList<Integer> chemin, int duree, int nombreDeQuete, int nombreDeCasesParcourues) {
+    public Solution(ArrayList<Integer> chemin, int duree, int nombreDeQuete, int nombreDeCasesParcourues, int experience) {
         this.chemin = chemin;
         this.duree = duree;
         this.nombreDeQuete = nombreDeQuete;
         this.nombreDeCasesParcourues = nombreDeCasesParcourues;
+        this.experience = experience;
     }
 
     public ArrayList<Integer> getChemin() {
@@ -29,5 +31,9 @@ public class Solution {
 
     public int getNombreDeCasesParcourues() {
         return nombreDeCasesParcourues;
+    }
+
+    public int getExperience() {
+        return experience;
     }
 }
