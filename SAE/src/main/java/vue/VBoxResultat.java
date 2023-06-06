@@ -30,12 +30,17 @@ public class VBoxResultat extends VBox {
         colonneNombreDeQuete.setPrefWidth(140);
         colonneNombreDeQuete.setResizable(false);
 
+        TableColumn <Solution, Integer> colonneExperience = new TableColumn<>("Expérience");
+        colonneExperience.setCellValueFactory(new PropertyValueFactory<>("experience"));
+        colonneExperience.setPrefWidth(140);
+        colonneExperience.setResizable(false);
+
         TableColumn <Solution, Integer> colonneNombreDeCasesParcourues = new TableColumn<>("Nombre De Cases Parcourues");
         colonneNombreDeCasesParcourues.setCellValueFactory(new PropertyValueFactory<>("nombreDeCasesParcourues"));
         colonneNombreDeCasesParcourues.setPrefWidth(180);
         colonneNombreDeCasesParcourues.setResizable(false);
 
-        tableauDesSolutions.getColumns().addAll(colonneCheminParcouru, colonneDuree, colonneNombreDeQuete, colonneNombreDeCasesParcourues);
+        tableauDesSolutions.getColumns().addAll(colonneCheminParcouru, colonneDuree, colonneNombreDeQuete, colonneExperience, colonneNombreDeCasesParcourues);
 
         getChildren().add(tableauDesSolutions);
 
